@@ -1,0 +1,475 @@
+# Let me write the files directly instead of trying to pass huge strings
+# First, let me write the index.html in parts
+
+part1 = '''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Najoti Zamona</title>
+    <link rel="manifest" href="assets/manifest.json">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-logo">NAJOTI ZAMONA</div>
+        <div class="loading-bar-container"><div class="loading-bar"></div></div>
+        <div class="loading-text">Loading Experience</div>
+    </div>
+
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-follower" id="cursorFollower"></div>
+    <div class="gradient-bg"></div>
+    <div class="parallax-bg"></div>
+    <canvas id="three-canvas"></canvas>
+
+    <div class="announcement-bar" id="announcementBar">
+        <span id="announcementText">Welcome to Najoti Zamona - Experience the Future</span>
+        <button class="close-announcement" onclick="closeAnnouncement()">&times;</button>
+    </div>
+
+    <nav class="nav" id="navbar">
+        <a href="#" class="nav-logo">NAJOTI ZAMONA</a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#video">Video</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="admin.html" target="_blank">Admin</a></li>
+        </ul>
+        <a href="https://instagram.com/najoti_zamona_2" target="_blank" class="nav-instagram">
+            <i class="fab fa-instagram"></i><span>najoti_zamona_2</span>
+        </a>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <div class="weather-widget" id="weatherWidget">
+        <div class="weather-header">
+            <div class="weather-icon" id="weatherIcon"><i class="fas fa-sun"></i></div>
+            <div class="weather-temp" id="weatherTemp">--</div>
+        </div>
+        <div class="weather-desc" id="weatherDesc">Loading...</div>
+        <div class="weather-location" id="weatherLocation"><i class="fas fa-map-marker-alt"></i> Your Location</div>
+    </div>
+
+    <div class="clock-widget" id="clockWidget">
+        <div class="clock-time" id="clockTime">00:00:00</div>
+        <div class="clock-date" id="clockDate">Loading...</div>
+    </div>
+
+    <div class="notification-container" id="notificationContainer"></div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="floating-cards">
+            <div class="float-card float-card-1">
+                <div class="float-card-icon blue"><i class="fas fa-rocket"></i></div>
+                <div class="float-card-title">Innovation</div>
+                <div class="float-card-text">Cutting-edge technology</div>
+            </div>
+            <div class="float-card float-card-2">
+                <div class="float-card-icon purple"><i class="fas fa-gem"></i></div>
+                <div class="float-card-title">Premium</div>
+                <div class="float-card-text">Luxury experience</div>
+            </div>
+            <div class="float-card float-card-3">
+                <div class="float-card-icon pink"><i class="fas fa-infinity"></i></div>
+                <div class="float-card-title">Future</div>
+                <div class="float-card-text">Beyond imagination</div>
+            </div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <div class="pulse-dot"></div>
+                <span>Premium Experience</span>
+            </div>
+            <h1 class="hero-title"><span class="gradient-text">NAJOTI</span><br>ZAMONA</h1>
+            <p class="hero-subtitle">A futuristic digital experience that transcends boundaries. Immerse yourself in a world where technology meets artistry.</p>
+            <div class="hero-typing" id="typingText"></div>
+            <div class="hero-buttons">
+                <a href="#about" class="btn btn-primary"><i class="fas fa-arrow-right"></i> Explore Now</a>
+                <a href="#contact" class="btn btn-secondary"><i class="fas fa-envelope"></i> Get In Touch</a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span>Scroll</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="section-header">
+            <span class="section-label">About Us</span>
+            <h2 class="section-title">Who We <span class="gradient-text">Are</span></h2>
+            <p class="section-desc">Discover the story behind Najoti Zamona and our vision for the future.</p>
+        </div>
+        <div class="about-grid">
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=600&fit=crop" alt="About Najoti Zamona" id="aboutImage">
+            </div>
+            <div class="about-content">
+                <h3>Shaping the <span class="gradient-text">Future</span></h3>
+                <p>Najoti Zamona represents the pinnacle of digital innovation. We combine cutting-edge technology with artistic vision to create experiences that captivate and inspire.</p>
+                <p>Our mission is to push the boundaries of what is possible, blending cyberpunk aesthetics with premium functionality to deliver a truly unique digital presence.</p>
+                <div class="about-stats">
+                    <div class="stat-item"><div class="stat-number" data-count="500">0</div><div class="stat-label">Projects</div></div>
+                    <div class="stat-item"><div class="stat-number" data-count="1000">0</div><div class="stat-label">Clients</div></div>
+                    <div class="stat-item"><div class="stat-number" data-count="50">0</div><div class="stat-label">Awards</div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features">
+        <div class="section-header">
+            <span class="section-label">Our Features</span>
+            <h2 class="section-title">What Makes Us <span class="gradient-text">Special</span></h2>
+            <p class="section-desc">Experience a suite of premium features designed for the modern digital age.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card tilt-card">
+                <div class="tilt-card-inner">
+                    <div class="feature-icon blue"><i class="fas fa-cube"></i></div>
+                    <h3 class="feature-title">3D Experience</h3>
+                    <p class="feature-desc">Immersive three-dimensional environments powered by WebGL technology for unparalleled visual depth.</p>
+                </div>
+            </div>
+            <div class="feature-card tilt-card">
+                <div class="tilt-card-inner">
+                    <div class="feature-icon purple"><i class="fas fa-music"></i></div>
+                    <h3 class="feature-title">Music Player</h3>
+                    <p class="feature-desc">Premium audio experience with visual equalizer, playlist management, and seamless playback.</p>
+                </div>
+            </div>
+            <div class="feature-card tilt-card">
+                <div class="tilt-card-inner">
+                    <div class="feature-icon pink"><i class="fas fa-palette"></i></div>
+                    <h3 class="feature-title">Glassmorphism</h3>
+                    <p class="feature-desc">Stunning glass-like UI elements with backdrop blur and neon accents for a modern aesthetic.</p>
+                </div>
+            </div>
+            <div class="feature-card tilt-card">
+                <div class="tilt-card-inner">
+                    <div class="feature-icon cyan"><i class="fas fa-bolt"></i></div>
+                    <h3 class="feature-title">Lightning Fast</h3>
+                    <p class="feature-desc">Optimized performance ensuring 60 FPS animations and instant response times across all devices.</p>
+                </div>
+            </div>
+            <div class="feature-card tilt-card">
+                <div class="tilt-card-inner">
+                    <div class="feature-icon blue"><i class="fas fa-mobile-alt"></i></div>
+                    <h3 class="feature-title">Mobile First</h3>
+                    <p class="feature-desc">Responsive design that adapts seamlessly to any screen size, from mobile to desktop.</p>
+                </div>
+            </div>
+            <div class="feature-card tilt-card">
+                <div class="tilt-card-inner">
+                    <div class="feature-icon purple"><i class="fas fa-shield-alt"></i></div>
+                    <h3 class="feature-title">Secure</h3>
+                    <p class="feature-desc">Advanced security features with admin panel, visitor tracking, and protected content management.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery">
+        <div class="section-header">
+            <span class="section-label">Portfolio</span>
+            <h2 class="section-title">Our <span class="gradient-text">Gallery</span></h2>
+            <p class="section-desc">A curated collection of our finest work and visual experiences.</p>
+        </div>
+        <div class="gallery-grid" id="galleryGrid">
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&h=600&fit=crop" alt="Technology">
+                <div class="gallery-overlay"><div class="gallery-title">Digital Future</div><div class="gallery-category">Technology</div></div>
+            </div>
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&h=600&fit=crop" alt="Cyberpunk">
+                <div class="gallery-overlay"><div class="gallery-title">Cyberpunk City</div><div class="gallery-category">Art</div></div>
+            </div>
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <img src="https://images.unsplash.com/photo-1534972195531-d756b9bfa9f2?w=600&h=600&fit=crop" alt="Neon">
+                <div class="gallery-overlay"><div class="gallery-title">Neon Dreams</div><div class="gallery-category">Photography</div></div>
+            </div>
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <img src="https://images.unsplash.com/photo-1515630278258-407f66498911?w=600&h=600&fit=crop" alt="Abstract">
+                <div class="gallery-overlay"><div class="gallery-title">Abstract Reality</div><div class="gallery-category">Design</div></div>
+            </div>
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&h=600&fit=crop" alt="Matrix">
+                <div class="gallery-overlay"><div class="gallery-title">Matrix Code</div><div class="gallery-category">Digital</div></div>
+            </div>
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=600&fit=crop" alt="Futuristic">
+                <div class="gallery-overlay"><div class="gallery-title">Futuristic Vision</div><div class="gallery-category">Concept</div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" onclick="closeLightbox()"><i class="fas fa-times"></i></button>
+        <img src="" alt="Lightbox Image" id="lightboxImage">
+    </div>
+
+    <!-- Video Section -->
+    <section id="video">
+        <div class="section-header">
+            <span class="section-label">Showreel</span>
+            <h2 class="section-title">Watch Our <span class="gradient-text">Vision</span></h2>
+            <p class="section-desc">Experience our creative vision in motion.</p>
+        </div>
+        <div class="video-container">
+            <video id="heroVideo" loop muted playsinline>
+                <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="video-overlay" id="videoOverlay">
+                <div class="play-btn" onclick="toggleVideo()">
+                    <i class="fas fa-play" id="playIcon"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Image Slider Section -->
+    <section id="slider">
+        <div class="section-header">
+            <span class="section-label">Highlights</span>
+            <h2 class="section-title">Featured <span class="gradient-text">Moments</span></h2>
+            <p class="section-desc">A visual journey through our most iconic moments.</p>
+        </div>
+        <div class="slider-container">
+            <div class="slider-wrapper" id="sliderWrapper">
+                <div class="slider-slide">
+                    <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=1200&h=500&fit=crop" alt="Slide 1">
+                    <div class="slider-overlay"><h3>Future Technology</h3><p>Exploring the boundaries of innovation</p></div>
+                </div>
+                <div class="slider-slide">
+                    <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&h=500&fit=crop" alt="Slide 2">
+                    <div class="slider-overlay"><h3>Digital Universe</h3><p>Where imagination meets reality</p></div>
+                </div>
+                <div class="slider-slide">
+                    <img src="https://images.unsplash.com/photo-1535223289827-42f1e9919769?w=1200&h=500&fit=crop" alt="Slide 3">
+                    <div class="slider-overlay"><h3>Neon Horizons</h3><p>Lighting the path to tomorrow</p></div>
+                </div>
+            </div>
+            <button class="slider-nav prev" onclick="prevSlide()"><i class="fas fa-chevron-left"></i></button>
+            <button class="slider-nav next" onclick="nextSlide()"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        <div class="slider-dots" id="sliderDots"></div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq">
+        <div class="section-header">
+            <span class="section-label">Support</span>
+            <h2 class="section-title">Frequently Asked <span class="gradient-text">Questions</span></h2>
+            <p class="section-desc">Find answers to common questions about our services.</p>
+        </div>
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <h4>What is Najoti Zamona?</h4>
+                    <div class="faq-icon"><i class="fas fa-plus"></i></div>
+                </div>
+                <div class="faq-answer"><p>Najoti Zamona is a premium digital experience platform that combines futuristic design, cutting-edge technology, and immersive 3D environments to create a unique web presence.</p></div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <h4>How can I contact the team?</h4>
+                    <div class="faq-icon"><i class="fas fa-plus"></i></div>
+                </div>
+                <div class="faq-answer"><p>You can reach us through the contact form on this website, via our Instagram page @najoti_zamona_2, or by email. We typically respond within 24 hours.</p></div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <h4>Is the website mobile-friendly?</h4>
+                    <div class="faq-icon"><i class="fas fa-plus"></i></div>
+                </div>
+                <div class="faq-answer"><p>Absolutely! Najoti Zamona is built with a mobile-first approach, ensuring a seamless experience across all devices including smartphones, tablets, and desktops.</p></div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <h4>Can I customize the experience?</h4>
+                    <div class="faq-icon"><i class="fas fa-plus"></i></div>
+                </div>
+                <div class="faq-answer"><p>Yes, the admin panel allows authorized users to customize various aspects including theme settings, music, announcements, and visual elements.</p></div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <h4>What technologies power this website?</h4>
+                    <div class="faq-icon"><i class="fas fa-plus"></i></div>
+                </div>
+                <div class="faq-answer"><p>We use HTML5, CSS3, JavaScript, Three.js for 3D graphics, GSAP for animations, and Lenis for smooth scrolling. The site is optimized for performance and SEO.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="section-header">
+            <span class="section-label">Get In Touch</span>
+            <h2 class="section-title">Contact <span class="gradient-text">Us</span></h2>
+            <p class="section-desc">We would love to hear from you. Reach out and let us create something amazing together.</p>
+        </div>
+        <div class="contact-grid">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div><h4>Location</h4><p>Dushanbe, Tajikistan</p></div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                    <div><h4>Email</h4><p>contact@najotizamona.com</p></div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon"><i class="fab fa-instagram"></i></div>
+                    <div><h4>Instagram</h4><p>@najoti_zamona_2</p></div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon"><i class="fas fa-clock"></i></div>
+                    <div><h4>Working Hours</h4><p>Mon - Fri: 9:00 AM - 6:00 PM</p></div>
+                </div>
+            </div>
+            <form class="contact-form" id="contactForm" onsubmit="handleContactSubmit(event)">
+                <div class="form-group">
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" name="name" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" name="subject" placeholder="What is this about?" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" placeholder="Tell us about your project..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%;">
+                    <i class="fas fa-paper-plane"></i> Send Message
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h3>NAJOTI ZAMONA</h3>
+                <p>A premium digital experience that pushes the boundaries of web design and technology. Crafted with passion and precision.</p>
+                <div class="footer-social">
+                    <a href="https://instagram.com/najoti_zamona_2" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#home"><i class="fas fa-chevron-right"></i> Home</a></li>
+                    <li><a href="#about"><i class="fas fa-chevron-right"></i> About</a></li>
+                    <li><a href="#features"><i class="fas fa-chevron-right"></i> Features</a></li>
+                    <li><a href="#gallery"><i class="fas fa-chevron-right"></i> Gallery</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Web Design</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> 3D Graphics</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Animation</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Branding</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Terms of Service</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Cookie Policy</a></li>
+                    <li><a href="admin.html" target="_blank"><i class="fas fa-chevron-right"></i> Admin Panel</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Najoti Zamona. All rights reserved.</p>
+            <p>Designed with <i class="fas fa-heart" style="color:var(--neon-pink);"></i> by <a href="https://instagram.com/najoti_zamona_2" target="_blank">Najoti Zamona</a></p>
+        </div>
+    </footer>
+
+    <!-- Music Player -->
+    <div class="music-player" id="musicPlayer">
+        <div class="music-header">
+            <div class="music-title">Now Playing</div>
+            <div class="music-controls-top">
+                <button class="music-btn" onclick="toggleMusicPlayer()" title="Minimize"><i class="fas fa-minus"></i></button>
+                <button class="music-btn" onclick="togglePlaylist()" title="Playlist"><i class="fas fa-list"></i></button>
+            </div>
+        </div>
+        <div class="music-details">
+            <div class="music-cover" id="musicCover"><i class="fas fa-music"></i></div>
+            <div class="music-info">
+                <h4 id="musicTrackName">Select a Track</h4>
+                <p id="musicArtist">Najoti Zamona</p>
+            </div>
+        </div>
+        <div class="music-progress">
+            <div class="progress-bar" id="progressBar" onclick="seekMusic(event)">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-time">
+                <span id="currentTime">0:00</span>
+                <span id="totalTime">0:00</span>
+            </div>
+        </div>
+        <div class="music-controls">
+            <button class="music-nav-btn" onclick="prevTrack()"><i class="fas fa-step-backward"></i></button>
+            <button class="music-play-btn" id="playBtn" onclick="togglePlay()"><i class="fas fa-play"></i></button>
+            <button class="music-nav-btn" onclick="nextTrack()"><i class="fas fa-step-forward"></i></button>
+        </div>
+        <div class="music-volume">
+            <i class="fas fa-volume-up" id="volumeIcon"></i>
+            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="70" oninput="setVolume(this.value)">
+        </div>
+        <div class="music-equalizer" id="equalizer"></div>
+        <div class="music-playlist" id="musicPlaylist"></div>
+    </div>
+
+    <!-- Scroll to Top -->
+    <button class="scroll-top" id="scrollTop" onclick="scrollToTop()">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="script.js"></script>
+</body>
+</html>'''
+
+with open('/mnt/agents/output/najoti-zamona/index.html', 'w', encoding='utf-8') as f:
+    f.write(part1)
+
+print("index.html written successfully")
+print(f"Length: {len(part1)} characters")
