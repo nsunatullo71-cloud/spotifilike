@@ -1,0 +1,805 @@
+admin_html = '''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Najoti Zamona</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-container">
+            <div class="login-logo">
+                <i class="fas fa-shield-alt"></i>
+                <h2>Admin Panel</h2>
+                <p>Najoti Zamona</p>
+            </div>
+            <form class="login-form" id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Username</label>
+                    <input type="text" id="username" placeholder="Enter username" required autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" id="password" placeholder="Enter password" required autocomplete="current-password">
+                </div>
+                <button type="submit" class="login-btn">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+            </form>
+            <div class="login-footer">
+                <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Website</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dashboard" id="dashboard" style="display:none;">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Admin</span>
+                </div>
+                <button class="sidebar-toggle" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#dashboard-home" class="sidebar-link active" onclick="showSection('dashboard-home')">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#analytics" class="sidebar-link" onclick="showSection('analytics')">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="#music-manager" class="sidebar-link" onclick="showSection('music-manager')">
+                    <i class="fas fa-music"></i>
+                    <span>Music Manager</span>
+                </a>
+                <a href="#gallery-manager" class="sidebar-link" onclick="showSection('gallery-manager')">
+                    <i class="fas fa-images"></i>
+                    <span>Gallery Manager</span>
+                </a>
+                <a href="#content-editor" class="sidebar-link" onclick="showSection('content-editor')">
+                    <i class="fas fa-edit"></i>
+                    <span>Content Editor</span>
+                </a>
+                <a href="#theme-settings" class="sidebar-link" onclick="showSection('theme-settings')">
+                    <i class="fas fa-paint-brush"></i>
+                    <span>Theme Settings</span>
+                </a>
+                <a href="#website-stats" class="sidebar-link" onclick="showSection('website-stats')">
+                    <i class="fas fa-globe"></i>
+                    <span>Website Stats</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="#" class="sidebar-link" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="top-bar">
+                <div class="top-bar-left">
+                    <h1 id="pageTitle">Dashboard</h1>
+                    <span class="breadcrumb">Admin / <span id="breadcrumbText">Dashboard</span></span>
+                </div>
+                <div class="top-bar-right">
+                    <div class="top-bar-item">
+                        <i class="fas fa-clock"></i>
+                        <span id="adminClock">00:00:00</span>
+                    </div>
+                    <div class="top-bar-item">
+                        <i class="fas fa-user-shield"></i>
+                        <span>Nusrat</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Home -->
+            <div class="content-section active" id="dashboard-home">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-icon blue"><i class="fas fa-eye"></i></div>
+                        <div class="stat-card-info">
+                            <h3 id="visitorCount">0</h3>
+                            <p>Total Visitors</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-icon purple"><i class="fas fa-music"></i></div>
+                        <div class="stat-card-info">
+                            <h3 id="musicCount">5</h3>
+                            <p>Music Tracks</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-icon pink"><i class="fas fa-images"></i></div>
+                        <div class="stat-card-info">
+                            <h3 id="galleryCount">6</h3>
+                            <p>Gallery Images</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-icon cyan"><i class="fas fa-tachometer-alt"></i></div>
+                        <div class="stat-card-info">
+                            <h3 id="fpsCounter">60</h3>
+                            <p>Current FPS</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-header">
+                            <h3><i class="fas fa-chart-area"></i> Visitor Analytics</h3>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="visitorChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-header">
+                            <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
+                        </div>
+                        <div class="quick-actions">
+                            <button class="action-btn" onclick="showSection('music-manager')">
+                                <i class="fas fa-music"></i>
+                                <span>Manage Music</span>
+                            </button>
+                            <button class="action-btn" onclick="showSection('gallery-manager')">
+                                <i class="fas fa-images"></i>
+                                <span>Manage Gallery</span>
+                            </button>
+                            <button class="action-btn" onclick="showSection('content-editor')">
+                                <i class="fas fa-edit"></i>
+                                <span>Edit Content</span>
+                            </button>
+                            <button class="action-btn" onclick="showSection('theme-settings')">
+                                <i class="fas fa-paint-brush"></i>
+                                <span>Theme Settings</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics -->
+            <div class="content-section" id="analytics">
+                <div class="dashboard-card">
+                    <div class="dashboard-card-header">
+                        <h3><i class="fas fa-chart-bar"></i> Website Analytics</h3>
+                    </div>
+                    <div class="analytics-grid">
+                        <div class="analytics-item">
+                            <div class="analytics-label">Total Page Views</div>
+                            <div class="analytics-value" id="pageViews">0</div>
+                            <div class="analytics-bar"><div class="analytics-fill" style="width:75%"></div></div>
+                        </div>
+                        <div class="analytics-item">
+                            <div class="analytics-label">Unique Visitors</div>
+                            <div class="analytics-value" id="uniqueVisitors">0</div>
+                            <div class="analytics-bar"><div class="analytics-fill" style="width:60%"></div></div>
+                        </div>
+                        <div class="analytics-item">
+                            <div class="analytics-label">Average Session</div>
+                            <div class="analytics-value">2m 34s</div>
+                            <div class="analytics-bar"><div class="analytics-fill" style="width:45%"></div></div>
+                        </div>
+                        <div class="analytics-item">
+                            <div class="analytics-label">Bounce Rate</div>
+                            <div class="analytics-value">32%</div>
+                            <div class="analytics-bar"><div class="analytics-fill" style="width:32%"></div></div>
+                        </div>
+                        <div class="analytics-item">
+                            <div class="analytics-label">Music Plays</div>
+                            <div class="analytics-value" id="musicPlays">0</div>
+                            <div class="analytics-bar"><div class="analytics-fill" style="width:55%"></div></div>
+                        </div>
+                        <div class="analytics-item">
+                            <div class="analytics-label">Contact Submissions</div>
+                            <div class="analytics-value">12</div>
+                            <div class="analytics-bar"><div class="analytics-fill" style="width:25%"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Music Manager -->
+            <div class="content-section" id="music-manager">
+                <div class="dashboard-card">
+                    <div class="dashboard-card-header">
+                        <h3><i class="fas fa-music"></i> Music Manager</h3>
+                        <button class="btn btn-primary btn-sm" onclick="document.getElementById('musicUpload').click()">
+                            <i class="fas fa-upload"></i> Upload MP3
+                        </button>
+                    </div>
+                    <input type="file" id="musicUpload" accept="audio/mp3,audio/mpeg" style="display:none" onchange="handleMusicUpload(event)">
+                    <div class="music-list" id="musicList"></div>
+                </div>
+            </div>
+
+            <!-- Gallery Manager -->
+            <div class="content-section" id="gallery-manager">
+                <div class="dashboard-card">
+                    <div class="dashboard-card-header">
+                        <h3><i class="fas fa-images"></i> Gallery Manager</h3>
+                        <button class="btn btn-primary btn-sm" onclick="document.getElementById('galleryUpload').click()">
+                            <i class="fas fa-upload"></i> Upload Image
+                        </button>
+                    </div>
+                    <input type="file" id="galleryUpload" accept="image/*" style="display:none" onchange="handleGalleryUpload(event)">
+                    <div class="gallery-manager-grid" id="galleryManagerGrid"></div>
+                </div>
+            </div>
+
+            <!-- Content Editor -->
+            <div class="content-section" id="content-editor">
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-header">
+                            <h3><i class="fas fa-heading"></i> Website Title</h3>
+                        </div>
+                        <div class="form-group">
+                            <label>Page Title</label>
+                            <input type="text" id="websiteTitleInput" value="Najoti Zamona" placeholder="Enter website title">
+                            <button class="btn btn-primary" style="margin-top:15px;width:100%" onclick="updateWebsiteTitle()">
+                                <i class="fas fa-save"></i> Save Title
+                            </button>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-header">
+                            <h3><i class="fas fa-bullhorn"></i> Announcement</h3>
+                        </div>
+                        <div class="form-group">
+                            <label>Announcement Text</label>
+                            <textarea id="announcementInput" rows="3" placeholder="Enter announcement text">Welcome to Najoti Zamona - Experience the Future</textarea>
+                            <button class="btn btn-primary" style="margin-top:15px;width:100%" onclick="updateAnnouncement()">
+                                <i class="fas fa-save"></i> Save Announcement
+                            </button>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-header">
+                            <h3><i class="fas fa-image"></i> Logo</h3>
+                        </div>
+                        <div class="form-group">
+                            <label>Upload Logo</label>
+                            <input type="file" id="logoUpload" accept="image/*" onchange="handleLogoUpload(event)">
+                            <div class="preview-box" id="logoPreview">
+                                <i class="fas fa-image"></i>
+                                <span>Logo Preview</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-header">
+                            <h3><i class="fas fa-video"></i> Background Video</h3>
+                        </div>
+                        <div class="form-group">
+                            <label>Upload Video</label>
+                            <input type="file" id="videoUpload" accept="video/*" onchange="handleVideoUpload(event)">
+                            <div class="preview-box" id="videoPreview">
+                                <i class="fas fa-video"></i>
+                                <span>Video Preview</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Theme Settings -->
+            <div class="content-section" id="theme-settings">
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-header">
+                            <h3><i class="fas fa-moon"></i> Theme Mode</h3>
+                        </div>
+                        <div class="theme-options">
+                            <button class="theme-option" id="darkModeBtn" onclick="setAdminTheme('dark')">
+                                <i class="fas fa-moon"></i>
+                                <span>Dark Mode</span>
+                                <div class="theme-check"><i class="fas fa-check"></i></div>
+                            </button>
+                            <button class="theme-option" id="lightModeBtn" onclick="setAdminTheme('light')">
+                                <i class="fas fa-sun"></i>
+                                <span>Light Mode</span>
+                                <div class="theme-check"><i class="fas fa-check"></i></div>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-header">
+                            <h3><i class="fas fa-tachometer-alt"></i> Animation Speed</h3>
+                        </div>
+                        <div class="form-group">
+                            <label>Animation Speed Multiplier</label>
+                            <input type="range" min="0.1" max="3" step="0.1" value="1" id="animationSpeedSlider" oninput="updateAnimationSpeed(this.value)">
+                            <div class="slider-value" id="animationSpeedValue">1.0x</div>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-header">
+                            <h3><i class="fas fa-circle"></i> Particle Settings</h3>
+                        </div>
+                        <div class="form-group">
+                            <label>Particle Count</label>
+                            <input type="range" min="100" max="3000" step="100" value="1000" id="particleSlider" oninput="updateParticleCount(this.value)">
+                            <div class="slider-value" id="particleValue">1000</div>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-header">
+                            <h3><i class="fas fa-palette"></i> Color Scheme</h3>
+                        </div>
+                        <div class="color-presets">
+                            <button class="color-preset" onclick="setColorScheme('blue-purple')" style="background: linear-gradient(135deg, #00f0ff, #bf00ff)"></button>
+                            <button class="color-preset" onclick="setColorScheme('green-teal')" style="background: linear-gradient(135deg, #00ff88, #00ffff)"></button>
+                            <button class="color-preset" onclick="setColorScheme('orange-red')" style="background: linear-gradient(135deg, #ff6600, #ff0055)"></button>
+                            <button class="color-preset" onclick="setColorScheme('pink-purple')" style="background: linear-gradient(135deg, #ff00aa, #bf00ff)"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Website Stats -->
+            <div class="content-section" id="website-stats">
+                <div class="dashboard-card">
+                    <div class="dashboard-card-header">
+                        <h3><i class="fas fa-globe"></i> Website Statistics</h3>
+                    </div>
+                    <div class="stats-detail">
+                        <div class="stat-detail-item">
+                            <div class="stat-detail-label">Website Status</div>
+                            <div class="stat-detail-value"><span class="status-badge online">Online</span></div>
+                        </div>
+                        <div class="stat-detail-item">
+                            <div class="stat-detail-label">Last Updated</div>
+                            <div class="stat-detail-value" id="lastUpdated">Just now</div>
+                        </div>
+                        <div class="stat-detail-item">
+                            <div class="stat-detail-label">Total Pages</div>
+                            <div class="stat-detail-value">2</div>
+                        </div>
+                        <div class="stat-detail-item">
+                            <div class="stat-detail-label">Performance Score</div>
+                            <div class="stat-detail-value">98/100</div>
+                        </div>
+                        <div class="stat-detail-item">
+                            <div class="stat-detail-label">SEO Score</div>
+                            <div class="stat-detail-value">95/100</div>
+                        </div>
+                        <div class="stat-detail-item">
+                            <div class="stat-detail-label">Accessibility</div>
+                            <div class="stat-detail-value">100/100</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>'''
+
+with open('/mnt/agents/output/najoti-zamona/admin.html', 'w', encoding='utf-8') as f:
+    f.write(admin_html)
+
+print("admin.html written successfully")
+print(f"Length: {len(admin_html)} characters")admin_html = '''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Najoti Zamona</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-container">
+            <div class="login-logo">
+                <i class="fas fa-shield-alt"></i>
+                <h2>Admin Panel</h2>
+                <p>Najoti Zamona</p>
+            </div>
+            <form class="login-form" id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Username</label>
+                    <input type="text" id="username" placeholder="Enter username" required autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" id="password" placeholder="Enter password" required autocomplete="current-password">
+                </div>
+                <button type="submit" class="login-btn">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+            </form>
+            <div class="login-footer">
+                <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Website</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dashboard" id="dashboard" style="display:none;">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Admin</span>
+                </div>
+                <button class="sidebar-toggle" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#dashboard-home" class="sidebar-link active" onclick="showSection('dashboard-home')">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#analytics" class="sidebar-link" onclick="showSection('analytics')">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="#music-manager" class="sidebar-link" onclick="showSection('music-manager')">
+                    <i class="fas fa-music"></i>
+                    <span>Music Manager</span>
+                </a>
+                <a href="#gallery-manager" class="sidebar-link" onclick="showSection('gallery-manager')">
+                    <i class="fas fa-images"></i>
+                    <span>Gallery Manager</span>
+                </a>
+                <a href="#content-editor" class="sidebar-link" onclick="showSection('content-editor')">
+                    <i class="fas fa-edit"></i>
+                    <span>Content Editor</span>
+                </a>
+                <a href="#theme-settings" class="sidebar-link" onclick="showSection('theme-settings')">
+                    <i class="fas fa-paint-brush"></i>
+                    <span>Theme Settings</span>
+                </a>
+                <a href="#website-stats" class="sidebar-link" onclick="showSection('website-stats')">
+                    <i class="fas fa-globe"></i>
+                    <span>Website Stats</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="#" class="sidebar-link" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="top-bar">
+                <div class="top-bar-left">
+                    <h1 id="pageTitle">Dashboard</h1>
+                    <span class="breadcrumb">Admin / <span id="breadcrumbText">Dashboard</span></span>
+                </div>
+                <div class="top-bar-right">
+                    <div class="top-bar-item">
+                        <i class="fas fa-clock"></i>
+                        <span id="adminClock">00:00:00</span>
+                    </div>
+                    <div class="top-bar-item">
+                        <i class="fas fa-user-shield"></i>
+                        <span>Nusrat</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Home -->
+            <div class="content-section active" id="dashboard-home">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-icon blue"><i class="fas fa-eye"></i></div>
+                        <div class="stat-card-info">
+                            <h3 id="visitorCount">0</h3>
+                            <p>Total Visitors</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-icon purple"><i class="fas fa-music"></i></div>
+                        <div class="stat-card-info">
+                            <h3 id="musicCount">5</h3>
+                            <p>Music Tracks</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-icon pink"><i class="fas fa-images"></i></div>
+                        <div class="stat-card-info">
+                            <h3 id="galleryCount">6</h3>
+                            <p>Gallery Images</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-icon cyan"><i class="fas fa-tachometer-alt"></i></div>
+                        <div class="stat-card-info">
+                            <h3 id="fpsCounter">60</h3>
+                            <p>Current FPS</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-header">
+                            <h3><i class="fas fa-chart-area"></i> Visitor Analytics</h3>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="visitorChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-header">
+                            <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
+                        </div>
+                        <div class="quick-actions">
+                            <button class="action-btn" onclick="showSection('music-manager')">
+                                <i class="fas fa-music"></i>
+                                <span>Manage Music</span>
+                            </button>
+                            <button class="action-btn" onclick="showSection('gallery-manager')">
+                                <i class="fas fa-images"></i>
+                                <span>Manage Gallery</span>
+                            </button>
+                            <button class="action-btn" onclick="showSection('content-editor')">
+                                <i class="fas fa-edit"></i>
+                                <span>Edit Content</span>
+                            </button>
+                            <button class="action-btn" onclick="showSection('theme-settings')">
+                                <i class="fas fa-paint-brush"></i>
+                                <span>Theme Settings</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics -->
+            <div class="content-section" id="analytics">
+                <div class="dashboard-card">
+                    <div class="dashboard-card-header">
+                        <h3><i class="fas fa-chart-bar"></i> Website Analytics</h3>
+                    </div>
+                    <div class="analytics-grid">
+                        <div class="analytics-item">
+                            <div class="analytics-label">Total Page Views</div>
+                            <div class="analytics-value" id="pageViews">0</div>
+                            <div class="analytics-bar"><div class="analytics-fill" style="width:75%"></div></div>
+                        </div>
+                        <div class="analytics-item">
+                            <div class="analytics-label">Unique Visitors</div>
+                            <div class="analytics-value" id="uniqueVisitors">0</div>
+                            <div class="analytics-bar"><div class="analytics-fill" style="width:60%"></div></div>
+                        </div>
+                        <div class="analytics-item">
+                            <div class="analytics-label">Average Session</div>
+                            <div class="analytics-value">2m 34s</div>
+                            <div class="analytics-bar"><div class="analytics-fill" style="width:45%"></div></div>
+                        </div>
+                        <div class="analytics-item">
+                            <div class="analytics-label">Bounce Rate</div>
+                            <div class="analytics-value">32%</div>
+                            <div class="analytics-bar"><div class="analytics-fill" style="width:32%"></div></div>
+                        </div>
+                        <div class="analytics-item">
+                            <div class="analytics-label">Music Plays</div>
+                            <div class="analytics-value" id="musicPlays">0</div>
+                            <div class="analytics-bar"><div class="analytics-fill" style="width:55%"></div></div>
+                        </div>
+                        <div class="analytics-item">
+                            <div class="analytics-label">Contact Submissions</div>
+                            <div class="analytics-value">12</div>
+                            <div class="analytics-bar"><div class="analytics-fill" style="width:25%"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Music Manager -->
+            <div class="content-section" id="music-manager">
+                <div class="dashboard-card">
+                    <div class="dashboard-card-header">
+                        <h3><i class="fas fa-music"></i> Music Manager</h3>
+                        <button class="btn btn-primary btn-sm" onclick="document.getElementById('musicUpload').click()">
+                            <i class="fas fa-upload"></i> Upload MP3
+                        </button>
+                    </div>
+                    <input type="file" id="musicUpload" accept="audio/mp3,audio/mpeg" style="display:none" onchange="handleMusicUpload(event)">
+                    <div class="music-list" id="musicList"></div>
+                </div>
+            </div>
+
+            <!-- Gallery Manager -->
+            <div class="content-section" id="gallery-manager">
+                <div class="dashboard-card">
+                    <div class="dashboard-card-header">
+                        <h3><i class="fas fa-images"></i> Gallery Manager</h3>
+                        <button class="btn btn-primary btn-sm" onclick="document.getElementById('galleryUpload').click()">
+                            <i class="fas fa-upload"></i> Upload Image
+                        </button>
+                    </div>
+                    <input type="file" id="galleryUpload" accept="image/*" style="display:none" onchange="handleGalleryUpload(event)">
+                    <div class="gallery-manager-grid" id="galleryManagerGrid"></div>
+                </div>
+            </div>
+
+            <!-- Content Editor -->
+            <div class="content-section" id="content-editor">
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-header">
+                            <h3><i class="fas fa-heading"></i> Website Title</h3>
+                        </div>
+                        <div class="form-group">
+                            <label>Page Title</label>
+                            <input type="text" id="websiteTitleInput" value="Najoti Zamona" placeholder="Enter website title">
+                            <button class="btn btn-primary" style="margin-top:15px;width:100%" onclick="updateWebsiteTitle()">
+                                <i class="fas fa-save"></i> Save Title
+                            </button>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-header">
+                            <h3><i class="fas fa-bullhorn"></i> Announcement</h3>
+                        </div>
+                        <div class="form-group">
+                            <label>Announcement Text</label>
+                            <textarea id="announcementInput" rows="3" placeholder="Enter announcement text">Welcome to Najoti Zamona - Experience the Future</textarea>
+                            <button class="btn btn-primary" style="margin-top:15px;width:100%" onclick="updateAnnouncement()">
+                                <i class="fas fa-save"></i> Save Announcement
+                            </button>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-header">
+                            <h3><i class="fas fa-image"></i> Logo</h3>
+                        </div>
+                        <div class="form-group">
+                            <label>Upload Logo</label>
+                            <input type="file" id="logoUpload" accept="image/*" onchange="handleLogoUpload(event)">
+                            <div class="preview-box" id="logoPreview">
+                                <i class="fas fa-image"></i>
+                                <span>Logo Preview</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-header">
+                            <h3><i class="fas fa-video"></i> Background Video</h3>
+                        </div>
+                        <div class="form-group">
+                            <label>Upload Video</label>
+                            <input type="file" id="videoUpload" accept="video/*" onchange="handleVideoUpload(event)">
+                            <div class="preview-box" id="videoPreview">
+                                <i class="fas fa-video"></i>
+                                <span>Video Preview</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Theme Settings -->
+            <div class="content-section" id="theme-settings">
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-header">
+                            <h3><i class="fas fa-moon"></i> Theme Mode</h3>
+                        </div>
+                        <div class="theme-options">
+                            <button class="theme-option" id="darkModeBtn" onclick="setAdminTheme('dark')">
+                                <i class="fas fa-moon"></i>
+                                <span>Dark Mode</span>
+                                <div class="theme-check"><i class="fas fa-check"></i></div>
+                            </button>
+                            <button class="theme-option" id="lightModeBtn" onclick="setAdminTheme('light')">
+                                <i class="fas fa-sun"></i>
+                                <span>Light Mode</span>
+                                <div class="theme-check"><i class="fas fa-check"></i></div>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-header">
+                            <h3><i class="fas fa-tachometer-alt"></i> Animation Speed</h3>
+                        </div>
+                        <div class="form-group">
+                            <label>Animation Speed Multiplier</label>
+                            <input type="range" min="0.1" max="3" step="0.1" value="1" id="animationSpeedSlider" oninput="updateAnimationSpeed(this.value)">
+                            <div class="slider-value" id="animationSpeedValue">1.0x</div>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-header">
+                            <h3><i class="fas fa-circle"></i> Particle Settings</h3>
+                        </div>
+                        <div class="form-group">
+                            <label>Particle Count</label>
+                            <input type="range" min="100" max="3000" step="100" value="1000" id="particleSlider" oninput="updateParticleCount(this.value)">
+                            <div class="slider-value" id="particleValue">1000</div>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-header">
+                            <h3><i class="fas fa-palette"></i> Color Scheme</h3>
+                        </div>
+                        <div class="color-presets">
+                            <button class="color-preset" onclick="setColorScheme('blue-purple')" style="background: linear-gradient(135deg, #00f0ff, #bf00ff)"></button>
+                            <button class="color-preset" onclick="setColorScheme('green-teal')" style="background: linear-gradient(135deg, #00ff88, #00ffff)"></button>
+                            <button class="color-preset" onclick="setColorScheme('orange-red')" style="background: linear-gradient(135deg, #ff6600, #ff0055)"></button>
+                            <button class="color-preset" onclick="setColorScheme('pink-purple')" style="background: linear-gradient(135deg, #ff00aa, #bf00ff)"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Website Stats -->
+            <div class="content-section" id="website-stats">
+                <div class="dashboard-card">
+                    <div class="dashboard-card-header">
+                        <h3><i class="fas fa-globe"></i> Website Statistics</h3>
+                    </div>
+                    <div class="stats-detail">
+                        <div class="stat-detail-item">
+                            <div class="stat-detail-label">Website Status</div>
+                            <div class="stat-detail-value"><span class="status-badge online">Online</span></div>
+                        </div>
+                        <div class="stat-detail-item">
+                            <div class="stat-detail-label">Last Updated</div>
+                            <div class="stat-detail-value" id="lastUpdated">Just now</div>
+                        </div>
+                        <div class="stat-detail-item">
+                            <div class="stat-detail-label">Total Pages</div>
+                            <div class="stat-detail-value">2</div>
+                        </div>
+                        <div class="stat-detail-item">
+                            <div class="stat-detail-label">Performance Score</div>
+                            <div class="stat-detail-value">98/100</div>
+                        </div>
+                        <div class="stat-detail-item">
+                            <div class="stat-detail-label">SEO Score</div>
+                            <div class="stat-detail-value">95/100</div>
+                        </div>
+                        <div class="stat-detail-item">
+                            <div class="stat-detail-label">Accessibility</div>
+                            <div class="stat-detail-value">100/100</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>'''
+
+with open('/mnt/agents/output/najoti-zamona/admin.html', 'w', encoding='utf-8') as f:
+    f.write(admin_html)
+
+print("admin.html written successfully")
+print(f"Length: {len(admin_html)} characters")
